@@ -1,11 +1,19 @@
 package title;
 
 public class Person {
-	private String firstName;
-	private String lastName;
-	private boolean hasOscar;
-	private boolean hasGoldenGlobe;
-	private Gender gender;
+	String firstName;
+	String lastName;
+	boolean hasOscar;
+	boolean hasGoldenGlobe;
+	Gender gender;
+
+	public Person(String firstName, String lastName, Gender gender, boolean hasOscar, boolean hasGoldenGlobe) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.hasOscar = hasOscar;
+		this.hasGoldenGlobe = hasGoldenGlobe;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -48,15 +56,13 @@ public class Person {
 	}
 
 	public String toXMLString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<person>");
-		sb.append(Tools.toXMLTag("firstName", getFirstName()));
-		sb.append(Tools.toXMLTag("lastName", getLastName()));
-		sb.append(Tools.toXMLTag("gender", String.valueOf(getGender())));
-		sb.append(Tools.toXMLTag("hasOscar", String.valueOf(isHasOscar())));
-		sb.append(Tools.toXMLTag("hasGoldenGlobe", String.valueOf(isHasGoldenGlobe())));
-		sb.append("\n</person>\n");
-		return sb.toString();
+		String firstname = Tools.toXMLTag("firstName", this.firstName);
+		String lastname = Tools.toXMLTag("lastName", this.lastName);
+		String gender = Tools.toXMLTag("gender", this.gender.toString());
+		String hasoscar = Tools.toXMLTag("hasOscar", String.valueOf(this.isHasOscar()));
+		String hasgoldenglobe = Tools.toXMLTag("hasGoldenGlobe", String.valueOf(this.isHasGoldenGlobe()));
+		String result = Tools.toXMLTag("person", firstname + lastname + gender + hasoscar + hasgoldenglobe);
+		return result;
 	}
 
 }

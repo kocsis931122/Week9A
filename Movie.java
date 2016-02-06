@@ -4,11 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
-	private String title;
-	private Genre genre;
-	private long duration;
-	private double rate;
-	private List<Person> cast = new ArrayList<Person>();
+	String title;
+	Genre genre;
+	long duration;
+	double rate;
+	List<Person> cast = new ArrayList<Person>();
+
+	public Movie(String title, Genre genre, long duration, double rate, List<Person> cast) {
+		this.title = title;
+		this.genre = genre;
+		this.duration = duration;
+		this.rate = rate;
+		this.cast = cast;
+	}
 
 	public String getTitle() {
 		return title;
@@ -51,15 +59,21 @@ public class Movie {
 	}
 
 	public String toXMLString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<movie>");
-		sb.append(Tools.toXMLTag("title", getTitle()));
-		sb.append(Tools.toXMLTag("genre", String.valueOf(getGenre())));
-		sb.append(Tools.toXMLTag("duration", String.valueOf(getDuration())));
-		sb.append(Tools.toXMLTag("rate", String.valueOf(getRate())));
-		sb.append(Tools.toXMLTag("cast", this.cast.toString()));
-		sb.append("\n</movie>\n");
-		return sb.toString();
+		String title = Tools.toXMLTag("title", this.title);
+		String genre = Tools.toXMLTag("genre", this.genre.toString());
+		String duration = Tools.toXMLTag("duration", String.valueOf(this.duration));
+		String rate = Tools.toXMLTag("rate", String.valueOf(this.rate));
+		String cast = Tools.toXMLTag("cast", castToXML(this.cast));
+		String result = title + genre + duration + rate + cast;
+		return Tools.toXMLTag("movie", result);
+	}
+
+	private static String castToXML(List<Person> people) {
+		String personToTag = "";
+		for (Person person : people) {
+			personToTag += person.toXMLString();
+		}
+		return personToTag;
 	}
 
 }

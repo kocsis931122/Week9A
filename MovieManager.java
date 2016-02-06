@@ -1,49 +1,40 @@
 package title;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieManager {
 
-	public static void main(String[] args, PrintWriter writer) {
+	public static final String FILE_PATH = "C:\\Users\\Vitya\\Java\\Movies\\src\\title\\movies.xml";
 
-		Person person = new Person();
-		person.setFirstName("alabama");
-		person.setLastName("jozsi");
-		person.setGender(Gender.MALE);
-		person.setHasOscar(false);
-		person.setHasGoldenGlobe(false);
+	public static void main(String[] args) {
 
-		Person person1 = new Person();
-		person1.setFirstName("alabama");
-		person1.setLastName("jozsi");
-		person1.setGender(Gender.MALE);
-		person1.setHasOscar(false);
-		person1.setHasGoldenGlobe(false);
+		Person attila = new Person("Nagy", "Attila", Gender.MALE, false, false);
+		Person caprio = new Person("Leonardo", "Di caprio", Gender.MALE, false, true);
+		List<Person> persons = new ArrayList<Person>();
+		List<Movie> movies = new ArrayList<Movie>();
+		persons.add(attila);
+		persons.add(caprio);
+		Movie titanic = new Movie("Titanic", Genre.DRAMA, 143, 8.9, persons);
+		movies.add(titanic);
 
-		ArrayList<Person> persons = new ArrayList<Person>();
-		persons.add(person);
-		persons.add(person1);
 
-		Movie movie = new Movie();
-		movie.setTitle("A nagy csapas");
-		movie.setGenre(Genre.HORROR);
-		movie.setDuration(119);
-		movie.setRate(3.9);
-		movie.setCast(persons);
-
-		final String FILENAME = "demo_movies.xml";
 		try {
-			FileWriter fw = new FileWriter(FILENAME);
-			writer = new PrintWriter(fw);
-
-		} catch (IOException ioe) {
-			System.err.println(ioe.getMessage());
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(FILE_PATH)));
+			StringBuffer sb = new StringBuffer();
+			sb.append("<movies>");
+			sb.append(titanic.toXMLString());
+			sb.append("</movies>");
+			bw.write(sb.toString());
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		writer.println(movie.toXMLString() + person.toXMLString() + person1.toXMLString());
-		writer.close();
-	}
 
+	}
 }

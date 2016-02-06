@@ -9,11 +9,12 @@ public class Tools {
 	}
 
 	public static HashMap<Person, Integer> countMoviesPerPerson(List<Movie> movies) {
-		HashMap<Person, Integer> countMap = new HashMap<>();
+		HashMap<Person, Integer> countMap = new HashMap<Person, Integer>();
 		for (Movie movie : movies) {
-			for (Person person : movie.getCast()) {
+			List<Person> cast = movie.getCast();
+			for (Person person : cast) {
 				if (!countMap.containsKey(person)) {
-					countMap.put(person, new Integer(0));
+					countMap.put(person, 0);
 				}
 				countMap.put(person, countMap.get(person) + 1);
 			}
@@ -22,10 +23,11 @@ public class Tools {
 	}
 
 	public static String[] getMovieTitles(List<Movie> movie) {
+		String[] movieTitles = new String[movie.size()];
 		for (int i = 0; i < movie.size(); i++) {
-			System.out.println(movie.get(0));
+			movieTitles[i] = movie.get(i).getTitle();
 		}
-		return titles;
+		return movieTitles;
 	}
 
 }
